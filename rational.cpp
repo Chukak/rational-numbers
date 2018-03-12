@@ -375,13 +375,12 @@ using namespace std;
  * Returns istream.
  */
 istream& operator>>(istream& stream, rational& rational) {
-    // check if input not empty.
-    if (stream.rdbuf()->in_avail() > 0) {
-        int numerator, denominator;
-        stream >> numerator;
-        // ignore separator.
-        stream.ignore(1);
-        stream >> denominator;
+    int numerator, denominator;
+    stream >> numerator;
+    // ignore separator.
+    stream.ignore(1);
+    stream >> denominator;
+    if (!stream.fail()) {
         rational.setRational(numerator, denominator);
     }    
     return stream;
