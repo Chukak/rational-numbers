@@ -319,7 +319,7 @@ int run_tests() {
             rational a(1, 0);
             return 1;
         } 
-        catch (std::logic_error const& err) {
+        catch (logic_error const& err) {
             rational a(1, 1);
             bool equal = a == rational(1, 1);
             if (!equal) {
