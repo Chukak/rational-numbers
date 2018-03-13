@@ -1,4 +1,3 @@
-#include <algorithm>
 
 /* 
  * The function returns the smallest common denominator for two 
@@ -7,8 +6,9 @@
  */
 int LeastCommonDenominator(int a, int b) {
     if (a < b) {
-        // swap variables, a = b, b = a.
-        std::swap(a, b); 
+        int t = a;
+        a = b;
+        b = t;
     }
     // find common denominator. 
     for (int i = 2; a % b; i++) {
