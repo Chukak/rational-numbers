@@ -8,7 +8,7 @@
  * Class rational.
  * 
  * Public: 
- * 1. `rational(num, deno)` - class initializer. By default num = 0, deno = 1.
+ * 1. `rational(num, deno)` - class initializer. By default `num = 0`, `deno = 1`.
  * 2. `numerator()` - return numerator value.
  * 3. `denominator()` - return denominator value.
  * 4. `setRational(num, deno)` - set new numerator and denominator values.
@@ -22,7 +22,7 @@
  * 2. `denominator_value` - denominator value.
  * 3. `updateRational` - update numerator and denominator values.
  * 4. `defaultRational` - set default numerator and denominator values. By 
- * defaulf numerator = 0, denominator = 1.
+ * default numerator = 0, denominator = 1.
  * 
  */
 class rational {
@@ -51,7 +51,7 @@ private:
  * Operators:
  * `==` - check if two rational objects are equal.
  * `!=` - check if two rational objects are not equal.
- * `!` - check if nor rational object, (for example, rational(0, 1).
+ * `!` - check if not rational object, (for example, `!rational(0, 1)` - `false`).
  */
 bool operator==(const rational& left, const rational& right);
 bool operator!=(const rational& left, const rational& right);
