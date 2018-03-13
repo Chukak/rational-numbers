@@ -3,7 +3,7 @@
 
 /* 
  * Function for run tests.
- * Returns 0, if all tests are success. Otherwise returns N, N > 0;
+ * Returns 0, if all tests are success. Otherwise returns `N`, `N > 0`;
  *  
  */
 int run_tests();
