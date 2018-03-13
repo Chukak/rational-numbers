@@ -6,8 +6,8 @@
 #include "utils.h"
 
 /* 
- * Constructor this class. By default: `num = 0`, `deno = 1`.
- * Create rational number object, or raises logic error, 
+ * Constructor class. By default: `num = 0`, `deno = 1`.
+ * Create rational number object, or raises logical error, 
  * if denominator is zero.
  * 
  * Numerator (argument `num`) -  сan be any number.
@@ -16,8 +16,7 @@
  * You can create object as: `rational(n, d)`, `rational number = {n, d}`, 
  * `{n, d}`.
  * 
- * You can use thi object in vector, map and set. 
- *  
+ * You can use this object in vector, map and set. 
  */
 rational::rational (int num, int deno) {
     if (num == 0) {
@@ -56,9 +55,9 @@ void rational::setNumerator(int num) {
  * This function change denominator. Numerator don`t be changed.
  * 
  * Update denominator, if denominator not zero. 
- * Otherwise raise logic error.
+ * Otherwise raise logical error.
  * 
- * Denominator must be non-zero value.
+ * Denominator must be value, different from zero.
  */
 void rational::setDenominator(int deno) {
     if (deno != 0) {
@@ -74,7 +73,7 @@ void rational::setDenominator(int deno) {
  * 
  * Update denominator, if denominator not zero. Otherwise raise logic error.
  * 
- * Denominator must be non-zero value.
+ * Denominator must value, different from zero.
  */
 void rational::setRational(int num, int deno) {
     if (num == 0) {
@@ -86,7 +85,7 @@ void rational::setRational(int num, int deno) {
     }    
 }
 /* 
- * This function set default values to variables.
+ * This function set default values.
  * Default `numerator = 0`;
  * Default `denominator = 1`;
  */
@@ -96,8 +95,6 @@ void rational::defaultRational() {
 }
 /* 
  * This function update values.
- * 
- * 
  */
 void rational::updateRational(int num, int deno) {
     int gcd = GreatestCommonDivisor(abs(num), abs(deno));
@@ -105,10 +102,10 @@ void rational::updateRational(int num, int deno) {
         num = num / gcd;
         deno = deno / gcd;
     } 
-    // check if deno > 0 then set num.
-    // otherwise check if num > 0 then set num * -1 else num.
+    // check, if `deno > 0` then set num.
+    // otherwise check, if `num > 0` then set `num * -1` else num.
     numerator_value = deno > 0 ? num : (num > 0 ? num * -1 : num);
-    // check if deno < 0 then set deno * -1 else deno.
+    // check if `deno < 0` then set `deno * -1` else deno.
     denominator_value = deno < 0 ? deno * -1 : deno;
 }
 
@@ -123,9 +120,9 @@ void rational::updateRational(int num, int deno) {
  * Example: `a += b`. `a` - this rational, `b` - right rational.
  * Formula: `n * (new_d / d) + right_n * (new_d / right_d)`, where 
  * `n` - numerator, `d` - denominator;
- * `new_d` - new denominator, which set to object;
- * `right_n` - right rational number numerator, 
- * `right_d` - right rational numer denominator;
+ * `new_d` - new denominator, which is the new value of the object;
+ * `right_n` - numerator of right rational number, 
+ * `right_d` - denominator of right rational numer;
  * 
  */
 void rational::operator+=(const rational& right) {
@@ -154,9 +151,9 @@ void rational::operator+=(const rational& right) {
  * Example: `a -= b`. `a` - this rational, `b` - right rational.
  * Formula: `n * (new_d / d) - right_n * (new_d / right_d)`, where 
  * `n` - numerator, `d` - denominator;
- * `new_d` - new denominator, which set to object;
- * `right_n` - right rational number numerator, 
- * `right_d` - right rational numer denominator;
+ * `new_d` - new denominator, which is the new value of the object;
+ * `right_n` - numerator of right rational number, 
+ * `right_d` - denominator of right rational numer;
  * 
  */
 void rational::operator-=(const rational& right) {
@@ -285,9 +282,9 @@ bool operator!(const rational& right) {
  * Example: `c = a + b`. `a` - left rational, `b` - right rational.
  * Formula: `n * (new_d / d) + right_n * (new_d / right_d)`, where 
  * `n` - numerator, `d` - denominator;
- * `new_d` - new denominator, which set to object;
- * `right_n` - right rational number numerator, 
- * `right_d` - right rational numer denominator;
+ * `new_d` - new denominator, which is the new value of the object;
+ * `right_n` - numerator of right rational number, 
+ * `right_d` - denominator of right rational numer;
  * 
  */
 rational operator+(const rational& left, const rational& right) {
@@ -313,9 +310,9 @@ rational operator+(const rational& left, const rational& right) {
  * Example: `c = a - b`. `a` - left rational, `b` - right rational.
  * Formula: `n * (new_d / d) - right_n * (new_d / right_d)`, where 
  * `n` - numerator, `d` - denominator;
- * `new_d` - new denominator, which set to object;
- * `right_n` - right rational number numerator, 
- * `right_d` - right rational numer denominator;
+ * `new_d` - new denominator, which is the new value of the object;
+ * `right_n` - numerator of right rational number, 
+ * `right_d` - denominator of right rational numer;
  * 
  */
 rational operator-(const rational& left, const rational& right) {
