@@ -10,21 +10,20 @@
 using namespace std;
 
 /*
- * Testing the class `rational`.
+ * Testing the class rational number.
  *
  * Various tests are run, checks the possibility of using
- * operators that are implemented in the class `rational`.
+ * operators that are implemented in the class rational numbers.
  *
  * The function returns 0 if all tests passed successfully. Otherwise
- * prints the result which the test should return,
- * and the value of N is returned, where `N > 0`.
+ * prints the result, which the test should return,
+ * and returns `N`, where `N > 0`.
  *
- * For each successfully passed test group, the function prints "OK".
+ * For each successfully passed tests group, the function prints "OK".
  * Otherwise prints the result, which should return the test and
- * exit with a non-zero number.
+ * exit with a non-zero status.
  */
 int run_tests() {
-    // Creation tests. If all tests success, print "OK". 
     {
         const rational r(3, 10);
         if (r.numerator() != 3 || r.denominator() != 10) {
@@ -83,8 +82,7 @@ int run_tests() {
     }
 
     cout << "OK" << "\n";
-    // Comparsion tests. If all tests success, print "OK".
-    // Variable `equal` = comparsion result. `equal` must be a `false`. 
+    // Comparsion tests.
     {
         rational r1(4, 6);
         rational r2(2, 5);
@@ -135,8 +133,7 @@ int run_tests() {
     
     cout << "OK" << "\n";
     /* 
-     * Operator tests. If all tests success, print "OK".
-     * Variable `equal` = comparsion result. `equal` must be a `false`.
+     * Operator tests.
      * Operators: `a + b`, `a - b`, `a * b`, `a / b`.
      */
     {
@@ -185,8 +182,7 @@ int run_tests() {
     
     cout << "OK" << "\n";
     /* 
-     * One more operator tests. If all tests success, print "OK".
-     * Variable `equal` = comparsion result. `equal` must be a `false`.
+     * One more operator tests.
      * Operators: `a += b`, `a -= b`, `a *= b`, `a /= b`.
      */
     {
@@ -235,7 +231,7 @@ int run_tests() {
 
     cout << "OK" << "\n";
     /* 
-     * Input/output tests. If all tests success, print "OK".
+     * Input/output tests. 
      * Tests creation rational object from input: `cin >> rational`.
      * And tests output rational object: `cout << rational`.
      */
@@ -281,10 +277,7 @@ int run_tests() {
     }
 
     cout << "OK" << "\n";
-    /*
-     * Map/set/vector creation tests. If all tests success, print "OK".
-     * 
-     */
+    // Map/set/vector creation tests.
     {
         const set<rational> rs = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
         if (rs.size() != 3) {
