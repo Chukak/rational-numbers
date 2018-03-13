@@ -99,7 +99,7 @@ int run_tests() {
         bool equal = r1 < r2;
         if (!equal) {
             cout << "4/6 > 2/5" << "\n";
-            return 1;
+            return 2;
         }
     }
     
@@ -109,7 +109,7 @@ int run_tests() {
         bool equal = r1 == r2;
         if (!equal) {
             cout << "4/6 != 2/3" << "\n";
-            return 1;
+            return 3;
         }
     }
     
@@ -119,7 +119,7 @@ int run_tests() {
         bool equal = r1 != r2;
         if (!equal) {
             cout << "4/6 == 2/5" << "\n";
-            return 1;
+            return 4;
         }
     }
     
@@ -127,7 +127,7 @@ int run_tests() {
         rational r1(0, 1);
         if (!r1) {
             cout << "rational 0/1 is 0" << "\n";
-            return 1;
+            return 5;
         }
     }
     
@@ -143,7 +143,7 @@ int run_tests() {
         bool equal = c == rational(2, 1);
         if (!equal) {
             cout << "2/3 + 4/3 != 2" << "\n";
-            return 2;
+            return 1;
         }
     }
     
@@ -154,7 +154,7 @@ int run_tests() {
         bool equal = c == rational(31, 63);
         if (!equal) {
             cout << "5/7 - 2/9 != 31/63" << "\n";
-            return 4;
+            return 2;
         }
     }
     
@@ -165,7 +165,7 @@ int run_tests() {
         bool equal = c == rational(8, 9);
         if (!equal) {
             cout << "2/3 * 4/3 != 8/9" << "\n";
-            return 1;
+            return 3;
         }
     }
     
@@ -176,7 +176,7 @@ int run_tests() {
         bool equal = c == rational(2, 3);
         if (!equal) {
             cout << "5/4 / 15/8 != 2/3" << "\n";
-            return 3;
+            return 4;
         }
     }
     
@@ -192,7 +192,7 @@ int run_tests() {
         bool equal = a == rational(2, 1);
         if (!equal) {
             cout << "2/3 + 4/3 != 2" << "\n";
-            return 3;
+            return 1;
         }
     }
     
@@ -203,7 +203,7 @@ int run_tests() {
         bool equal = a == rational(31, 63);
         if (!equal) {
             cout << "5/7 - 2/9 != 31/63" << "\n";
-            return 5;
+            return 2;
         }
     } 
     
@@ -214,7 +214,7 @@ int run_tests() {
         bool equal = a == rational(8, 9);
         if (!equal) {
             cout << "2/3 * 4/3 != 8/9" << "\n";
-            return 2;
+            return 3;
         }
     }
     
