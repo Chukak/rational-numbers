@@ -39,6 +39,10 @@ public:
     void operator*=(const rational& right);
     void operator/=(const rational& right);
     
+    explicit operator bool() const {
+        return (numerator_value != 0 && denominator_value != 1);
+    };
+    
 private:
     int numerator_value;
     int denominator_value;
