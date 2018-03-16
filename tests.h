@@ -6,6 +6,6 @@
  * Returns 0, if all tests are success. Otherwise returns `N`, `N > 0`;
  *  
  */
-int run_tests();
+int RunDefaultTests();
 
 #endif /* TESTS_H */
