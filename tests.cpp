@@ -40,6 +40,18 @@ Errors TestErrors;
 
 using namespace std;
 
+void PrintError(const string& file, const int& line, 
+        const string& func, const ostringstream& stream) 
+{
+    cout << string(50, '*') << "\n";
+    cout << "Assertion failed!" << "\n\n";
+    cout << "In file: " << file << "." << "\n";
+    cout << "At line: " << line << "." << "\n\n";
+    cout << "Function " << '`' << func << '`' << " failed!" << "\n";
+    cout << "Expression: " << stream.str() << "\n\n";
+    cout << string(50, '*') << "\n";
+}
+
 /* 
  * Declared unit-tests functions for rational. 
  * `_Assert...` - test funcitions.  
@@ -54,13 +66,9 @@ void _AssertEqual(const rational& lhs, const rational& rhs,
 {
     if (lhs != rhs) {
         TestErrors.UpdateError();
-        cout << string(50, '*') << "\n";
-        cout << "Assertion failed!" << "\n\n";
-        cout << "In file: " << file << "." << "\n";
-        cout << "At line: " << line << "." << "\n\n";
-        cout << "Function `AssertEqual` failed!" << "\n";
-        cout << "Expression: " << lhs << " != " << rhs << "\n\n";
-        cout << string(50, '*') << "\n";
+        ostringstream os;
+        os << lhs << " != " << rhs;
+        PrintError(file, line, "AssertEqual", os);
     } 
 }
 /* 
@@ -78,13 +86,9 @@ void _AssertNotEqual(const rational& lhs, const rational& rhs,
 {
     if (lhs == rhs) {
         TestErrors.UpdateError();
-        cout << string(50, '*') << "\n";
-        cout << "Assertion failed!" << "\n\n";
-        cout << "In file: " << file << "." << "\n";
-        cout << "At line: " << line << "." << "\n\n";
-        cout << "Function `AssertNotEqual` failed!" << "\n";
-        cout << "Expression: " << lhs << " == " << rhs << "\n\n";
-        cout << string(50, '*') << "\n";
+        ostringstream os;
+        os << lhs << " == " << rhs;
+        PrintError(file, line, "AssertNotEqual", os);
     } 
 }
 /* 
@@ -104,13 +108,9 @@ void _AssertOutputEqual(const rational& lhs, const string& stream,
     output << lhs.numerator() << '/' << lhs.denominator();
     if (output.str() != stream) {
         TestErrors.UpdateError();
-        cout << string(50, '*') << "\n";
-        cout << "Assertion failed!" << "\n\n";
-        cout << "In file: " << file << "." << "\n";
-        cout << "At line: " << line << "." << "\n\n";
-        cout << "Function `AssertOutputEqual` failed!" << "\n";
-        cout << "Expression: " << lhs << " == " << output.str() << "\n\n";
-        cout << string(50, '*') << "\n";
+        ostringstream os;
+        os << lhs << " != " << output.str();
+        PrintError(file, line, "AssertOutputEqual", os);
     } 
 }
 /* 
@@ -126,13 +126,9 @@ void _AssertOutputEqual(const rational& lhs, const string& stream,
 void _AssertFalse(bool check, int line, const string& file) {
     if (check) {
         TestErrors.UpdateError();
-        cout << string(50, '*') << "\n";
-        cout << "Assertion failed!" << "\n\n";
-        cout << "In file: " << file << "." << "\n";
-        cout << "At line: " << line << "." << "\n\n";
-        cout << "Function `AssertFalse` failed!" << "\n";
-        cout << "Expression: " << boolalpha << check << " != false " << "\n\n";
-        cout << string(50, '*') << "\n";
+        ostringstream os;
+        os << boolalpha << check << " != false ";
+        PrintError(file, line, "AssertFalse", os);
     }
 }
 /* 
@@ -147,13 +143,9 @@ void _AssertFalse(bool check, int line, const string& file) {
 void _AssertTrue(bool check, int line, const string& file) {
     if (!check) {
         TestErrors.UpdateError();
-        cout << string(50, '*') << "\n";
-        cout << "Assertion failed!" << "\n\n";
-        cout << "In file: " << file << "." << "\n";
-        cout << "At line: " << line << "." << "\n\n";
-        cout << "Function `AssertTrue` failed!" << "\n";
-        cout << "Expression: " << boolalpha << check << " != true " << "\n\n";
-        cout << string(50, '*') << "\n";
+        ostringstream os;
+        os << boolalpha << check << " != true ";
+        PrintError(file, line, "AssertTrue", os);
     }
 }
 /* 
@@ -170,13 +162,9 @@ void _AssertContainerEqual(const type& lhs,
 {
     if (lhs != rhs) {
         TestErrors.UpdateError();
-        cout << string(50, '*') << "\n";
-        cout << "Assertion failed!" << "\n\n";
-        cout << "In file: " << file << "." << "\n";
-        cout << "At line: " << line << "." << "\n\n";
-        cout << "Function `AssertContainerEqual` failed!" << "\n";
-        cout << "Expression: " << "vectors are not equal" << "\n\n";
-        cout << string(50, '*') << "\n";
+        ostringstream os;
+        os << "vectors are not equal";
+        PrintError(file, line, "AssertContainerEqual", os);
     } 
 }
 /* 
@@ -194,13 +182,9 @@ void _AssertContainerNotEqual(const type& lhs,
 {
     if (lhs == rhs) {
         TestErrors.UpdateError();
-        cout << string(50, '*') << "\n";
-        cout << "Assertion failed!" << "\n\n";
-        cout << "In file: " << file << "." << "\n";
-        cout << "At line: " << line << "." << "\n\n";
-        cout << "Function `AssertContainerNotEqual` failed!" << "\n";
-        cout << "Expression: " << "vectors are equal" << "\n\n";
-        cout << string(50, '*') << "\n";
+        ostringstream os;
+        os << "vectors are equal";
+        PrintError(file, line, "AssertContainerNotEqual", os);
     } 
 }
 /* 
@@ -245,7 +229,7 @@ void TestEqual() {
     TestErrors.ResetError();
     cout << "The test №1 has begin.\n";
     {
-        const rational r(3, 10);
+        const rational r(3, 10); 
         AssertEqual(r, rational(3, 10));
     }
 
@@ -281,7 +265,7 @@ void TestTrueOrFalse() {
     {
         const rational r(1, 15);
         bool a = r ? true : false;
-        AssertTrue(a);
+        AssertTrue(a); 
     }
 
     {
@@ -317,7 +301,7 @@ void TestComparsion() {
     {
         rational r1(4, 6);
         rational r2(2, 5);
-        AssertTrue(r1 > r2);
+        AssertTrue(r1 > r2); 
     }
     
     {
@@ -356,7 +340,7 @@ void TestOperators() {
     {
         rational a(2, 3);
         rational b(4, 3);
-        rational c(2, 1);
+        rational c(2, 1); 
         AssertEqual(a + b, c);
     }
     
@@ -377,7 +361,7 @@ void TestOperators() {
     {
         rational a(5, 4);
         rational b(15, 8);
-        rational c(2, 3);
+        rational c(2, 3); 
         AssertEqual(a / b, c);
     }
     TestErrors.UpdateGlobalError();
@@ -393,7 +377,7 @@ void TestOperatorsTwo() {
     cout << "The test №5 has begin.\n";
     {
         rational a(2, 3);
-        rational b(4, 3);
+        rational b(4, 3); 
         a += b;
         AssertEqual(a, rational(2, 1));
     }
@@ -431,7 +415,7 @@ void TestIOSTREAM() {
     cout << "The test №6 has begin.\n";
     {
         ostringstream output;
-        rational a(-6, 8);
+        rational a(-6, 8); 
         output << a;
         AssertOutputEqual(a, "-3/4");
     }
@@ -440,7 +424,7 @@ void TestIOSTREAM() {
         ostringstream output;
         rational a(5, 7);
         output << a;
-        AssertOutputEqual(a, "5/7");
+        AssertOutputEqual(a, "5/7"); 
     }
 
     {
@@ -451,7 +435,7 @@ void TestIOSTREAM() {
     }
 
     {
-        istringstream input("5/7 10/8");
+        istringstream input("5/7 10/8"); 
         rational r1, r2;
         input >> r1 >> r2;
         AssertEqual(r1, rational(5, 7));
@@ -476,7 +460,7 @@ void TestContainer() {
     cout << "The test №7 has begin.\n";
     {
         const set<rational> rs = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
-        const set<rational> ls = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
+        const set<rational> ls = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}}; 
         AssertContainerEqual(rs, ls);
     }
 
@@ -503,12 +487,9 @@ void TestMap() {
         ++count[{1, 2}];
         ++count[{2, 3}];
         if (count.size() != 2) {
-            cout << string(50, '*') << "\n";
-            cout << "Assertion failed!" << "\n\n";
-            cout << "In file: " << __FILE__ << "." << "\n";
-            cout << "At line: " << __LINE__ << "." << "\n\n";
-            cout << "Function `TestMap` failed!" << "\n";
-            cout << "Expression: " << "map<rational, ..> not work" << "\n\n";
+            ostringstream os;
+            os << "map<rational, ...> not work";
+            PrintError(__FILE__, __LINE__, "TestMap", os);
         }
     }
     TestErrors.UpdateGlobalError();
