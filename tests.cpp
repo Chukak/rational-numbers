@@ -225,10 +225,14 @@ void PrintResultTest() {
 void PrintGlobalResultTest() {
     if (TestErrors.GetGlobalError() == 0) {
         cout << "All tests are success!";
+        TestErrors.ResetGlobalError();
+        TestErrors.ResetError();
     } else {
-        cout << "You have " << to_string(TestErrors.GetGlobalError()) 
-                << " global errors!" 
-                << " Please checks you tests and fix any errors.\n";
+        string error = "You have " + to_string(TestErrors.GetGlobalError()) +
+                " global errors! Please checks you tests and fix any errors.";
+        TestErrors.ResetGlobalError();
+        TestErrors.ResetError();
+        throw runtime_error(error);
     }
 }
 
@@ -547,6 +551,4 @@ void RunDefaultTests() {
         PrintResultTest();
     }
     PrintGlobalResultTest();
-    TestErrors.ResetGlobalError();
-    TestErrors.ResetError();
 } 
