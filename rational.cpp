@@ -1,7 +1,8 @@
-#include <stdexcept>
-
 #include "rational.h"
 #include "utils.h"
+
+#include <stdexcept>
+
 
 /* 
  * Constructor class. By default: `num = 0`, `deno = 1`.

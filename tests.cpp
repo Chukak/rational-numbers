@@ -1,3 +1,5 @@
+#include "rational.h"
+
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -6,7 +8,6 @@
 #include <map>
 #include <c++/5/functional>
 
-#include "rational.h"
 
 using namespace std;
 
