@@ -1,5 +1,3 @@
-#include <istream>
-#include <ostream>
 #include <stdexcept>
 
 #include "rational.h"
