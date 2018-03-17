@@ -34,11 +34,15 @@ rational b(2, 3);
 if (a > b)
 ```
 
+You can check `true` or `false` rational. For example:
+
 ```
 rational a(0, 1);
-if (!a) // return false
+bool c = r ? true : false; // c == false
+if (!a) { ... }
 rational a(2, 3)
-if (!a) // return true
+bool c = r ? true : false; // c = true
+if (a) { ... } 
 ```
 
 You can use input and output for rational numbers. For example:
@@ -49,7 +53,21 @@ cin >> a;
 cout << a;
 ```
 
+You can use rational in vector, map, tuple, set. For example:
+
+```
+vector<rational> a = {{2, 1}, {3, 4}};
+set<rational> a = {{2, 1}, {3, 4}};
+
+tuple<rational, rational, rational> a = make_tuple(rationa(2, 1), rational(3, 4), rational(5, 4));
+
+map<rational, int> a; 
+rational r= {2, 1};
+map[r] = 1;
+```
+
 ## Tests
-Main.cpp by default run tests for rational numbers. Check test.cpp for more information.
+Main.cpp by default run tests.
+File test.cpp contains more information.
 
 <hr>
