@@ -100,7 +100,8 @@ void PrintError(const string& file, const int& line,
 }
 
 /*
- *  
+ * Run all group tests. Catch `runtime_error`, if error exists.
+ * Print test result and update global errors. 
  */
 void RunTests(const vector<function<void()>> functions) {
     function<void()> f;
@@ -205,7 +206,7 @@ void _AssertFalse(bool check, int line, const string& file) {
     }
 }
 /* 
- * Macro for `AssertEqual` function.
+ * Macro for `AssertFalse` function.
  * 
  * Call func with parameters:
  * `check` - true or false.
@@ -223,7 +224,7 @@ void _AssertTrue(bool check, int line, const string& file) {
     }
 }
 /* 
- * Macro for `AssertEqual` function.
+ * Macro for `AssertTrue` function.
  * 
  * Call func with parameters:
  * `check` - true or false.
@@ -243,7 +244,7 @@ void _AssertContainerEqual(const type& lhs,
     } 
 }
 /* 
- * Macro for `AssertEqual` function.
+ * Macro for `AssertContainerEqual` function.
  * 
  * Call func with parameters:
  * `lhs` - left container with rational.
@@ -264,7 +265,7 @@ void _AssertContainerNotEqual(const type& lhs,
     } 
 }
 /* 
- * Macro for `AssertEqual` function.
+ * Macro for `AssertContainerNotEqual` function.
  * 
  * Call func with parameters:
  * `lhs` - left container rational.
