@@ -4,8 +4,11 @@
 #include <set>
 #include <vector> 
 #include <map>
+#include <c++/5/functional>
 
 #include "rational.h"
+
+using namespace std;
 
 /*
  * Variables.
@@ -35,173 +38,9 @@ private:
     int global = 0;
 };
 
+// Initialize TestError object.
 Errors TestErrors;
 
-
-using namespace std;
-
-/* 
- * Print error to stderr in the format:
- * `In file: ` - file, in which error exists.
- * `At line: ` - line, in wich error exists.
- * `Function ` - testing function.
- * `Expression: ` - error cause.
- */
-void PrintError(const string& file, const int& line, 
-        const string& func, const ostringstream& stream) 
-{
-    cerr << string(50, '*') << "\n";
-    cerr << "Assertion failed!" << "\n\n";
-    cerr << "In file: " << file << "." << "\n";
-    cerr << "At line: " << line << "." << "\n\n";
-    cerr << "Function " << '`' << func << '`' << " failed!" << "\n";
-    cerr << "Expression: " << stream.str() << "\n\n";
-    cerr << string(50, '*') << "\n";
-}
-
-/* 
- * Declared unit-tests functions for rational. 
- * `_Assert...` - test funcitions.  
- *
- * In macros declared for functions, which declared below:
- * `__LINE__` - get line from the code, where the error exists.
- * `__FILE_` - get file, where the error exists.
- *
- */
-void _AssertEqual(const rational& lhs, const rational& rhs, 
-        int line, const string& file) 
-{
-    if (lhs != rhs) {
-        TestErrors.UpdateError();
-        ostringstream os;
-        os << lhs << " != " << rhs;
-        PrintError(file, line, "AssertEqual", os);
-    } 
-}
-/* 
- * Macro for `AssertEqual` function.
- * 
- * Call func with parameters:
- * `lhs` - left rational.
- * `rhs` - right rational.
- */
-#define AssertEqual(lhs, rhs) _AssertEqual(lhs, rhs, __LINE__, __FILE__)
-
-
-void _AssertNotEqual(const rational& lhs, const rational& rhs, 
-        int line, const string& file) 
-{
-    if (lhs == rhs) {
-        TestErrors.UpdateError();
-        ostringstream os;
-        os << lhs << " == " << rhs;
-        PrintError(file, line, "AssertNotEqual", os);
-    } 
-}
-/* 
- * Macro for `AssertNotEqual` function.
- * 
- * Call func with parameters:
- * `lhs` - left rational.
- * `rhs` - right rational.
- */
-#define AssertNotEqual(lhs, rhs) _AssertNotEqual(lhs, rhs, __LINE__, __FILE__)
-
-
-void _AssertOutputEqual(const rational& lhs, const string& stream, 
-        int line, const string& file) 
-{
-    ostringstream output;
-    output << lhs.numerator() << '/' << lhs.denominator();
-    if (output.str() != stream) {
-        TestErrors.UpdateError();
-        ostringstream os;
-        os << lhs << " != " << output.str();
-        PrintError(file, line, "AssertOutputEqual", os);
-    } 
-}
-/* 
- * Macro for `AssertOutputEqual` function.
- * 
- * Call func with parameters:
- * `lhs` - left rational.
- * `stream` - string stream.
- */
-#define AssertOutputEqual(lhs, stream) _AssertOutputEqual(lhs, stream, __LINE__, __FILE__)
-
-
-void _AssertFalse(bool check, int line, const string& file) {
-    if (check) {
-        TestErrors.UpdateError();
-        ostringstream os;
-        os << boolalpha << check << " != false ";
-        PrintError(file, line, "AssertFalse", os);
-    }
-}
-/* 
- * Macro for `AssertEqual` function.
- * 
- * Call func with parameters:
- * `check` - true or false.
- */
-#define AssertFalse(check) _AssertFalse(check, __LINE__, __FILE__)
-
-
-void _AssertTrue(bool check, int line, const string& file) {
-    if (!check) {
-        TestErrors.UpdateError();
-        ostringstream os;
-        os << boolalpha << check << " != true ";
-        PrintError(file, line, "AssertTrue", os);
-    }
-}
-/* 
- * Macro for `AssertEqual` function.
- * 
- * Call func with parameters:
- * `check` - true or false.
- */
-#define AssertTrue(check) _AssertTrue(check, __LINE__, __FILE__)
-
-template<typename type>
-void _AssertContainerEqual(const type& lhs, 
-        const type& rhs, int line, const string& file) 
-{
-    if (lhs != rhs) {
-        TestErrors.UpdateError();
-        ostringstream os;
-        os << "vectors are not equal";
-        PrintError(file, line, "AssertContainerEqual", os);
-    } 
-}
-/* 
- * Macro for `AssertEqual` function.
- * 
- * Call func with parameters:
- * `lhs` - left container with rational.
- * `rhs` - right container with rational.
- */
-#define AssertContainerEqual(lhs, rhs) _AssertContainerEqual(lhs, rhs, __LINE__, __FILE__)
-
-template<typename type>
-void _AssertContainerNotEqual(const type& lhs, 
-        const type& rhs, int line, const string& file) 
-{
-    if (lhs == rhs) {
-        TestErrors.UpdateError();
-        ostringstream os;
-        os << "vectors are equal";
-        PrintError(file, line, "AssertContainerNotEqual", os);
-    } 
-}
-/* 
- * Macro for `AssertEqual` function.
- * 
- * Call func with parameters:
- * `lhs` - left container rational.
- * `rhs` - right container rational.
- */
-#define AssertContainerNotEqual(lhs, rhs) _AssertContainerNotEqual(lhs, rhs, __LINE__, __FILE__)
 
 /* 
  * Print result when, group tests completed. Print `Done!` if tests are success.
@@ -213,8 +52,10 @@ void PrintResultTest() {
     if (TestErrors.GetError() == 0) {
         cout << "Done!\n";
     } else {
-        cout << "You have " << to_string(TestErrors.GetError()) << " errors!" 
-                << " Please checks you tests and fix any errors.\n";
+        string error = "Test failed! Please checks your tests and "
+                "fix any errors.\n";
+        
+        cout << error << "\n";
     }
 }
 
@@ -239,14 +80,204 @@ void PrintGlobalResultTest() {
     }
 }
 
+/* 
+ * Print error to stderr in the format:
+ * `In file: ` - file, in which error exists.
+ * `At line: ` - line, in wich error exists.
+ * `Function ` - testing function.
+ * `Expression: ` - error cause.
+ */
+void PrintError(const string& file, const int& line, 
+        const string& func, const ostringstream& stream) 
+{
+    cerr << string(50, '*') << "\n";
+    cerr << "Assertion failed!" << "\n\n";
+    cerr << "In file: " << file << "." << "\n";
+    cerr << "At line: " << line << "." << "\n\n";
+    cerr << "Function " << '`' << func << '`' << " failed!" << "\n";
+    cerr << "Expression: " << stream.str() << "\n\n";
+    cerr << string(50, '*') << "\n";
+}
+
+/*
+ *  
+ */
+void RunTests(const vector<function<void()>> functions) {
+    function<void()> f;
+    for (size_t i = 0; i < functions.size(); i++) {
+        TestErrors.ResetError();
+        cout << "The test №" << i + 1 <<  " has begin.\n";
+        f = functions[i];
+        try {
+            f();
+            TestErrors.UpdateGlobalError();
+            PrintResultTest();
+        } catch (runtime_error& e) {
+            TestErrors.UpdateGlobalError();
+            PrintResultTest();
+            continue;
+        } 
+    } 
+}
+
+
+/* 
+ * Declared unit-tests functions for rational. 
+ * `_Assert...` - test funcitions.  
+ *
+ * In macros declared for functions, which declared below:
+ * `__LINE__` - get line from the code, where the error exists.
+ * `__FILE_` - get file, where the error exists.
+ *
+ */
+void _AssertEqual(const rational& lhs, const rational& rhs, 
+        int line, const string& file) 
+{
+    if (lhs != rhs) {
+        TestErrors.UpdateError();
+        ostringstream os;
+        os << lhs << " != " << rhs;
+        PrintError(file, line, "AssertEqual", os);
+        throw runtime_error("");
+    } 
+}
+/* 
+ * Macro for `AssertEqual` function.
+ * 
+ * Call func with parameters:
+ * `lhs` - left rational.
+ * `rhs` - right rational.
+ */
+#define AssertEqual(lhs, rhs) _AssertEqual(lhs, rhs, __LINE__, __FILE__)
+
+
+void _AssertNotEqual(const rational& lhs, const rational& rhs, 
+        int line, const string& file) 
+{
+    if (lhs == rhs) {
+        TestErrors.UpdateError();
+        ostringstream os;
+        os << lhs << " == " << rhs;
+        PrintError(file, line, "AssertNotEqual", os);
+        throw runtime_error("");
+    } 
+}
+/* 
+ * Macro for `AssertNotEqual` function.
+ * 
+ * Call func with parameters:
+ * `lhs` - left rational.
+ * `rhs` - right rational.
+ */
+#define AssertNotEqual(lhs, rhs) _AssertNotEqual(lhs, rhs, __LINE__, __FILE__)
+
+
+void _AssertOutputEqual(const rational& lhs, const string& stream, 
+        int line, const string& file) 
+{
+    ostringstream output;
+    output << lhs.numerator() << '/' << lhs.denominator();
+    if (output.str() != stream) {
+        TestErrors.UpdateError();
+        ostringstream os;
+        os << lhs << " != " << output.str();
+        PrintError(file, line, "AssertOutputEqual", os);
+        throw runtime_error("");
+    } 
+}
+/* 
+ * Macro for `AssertOutputEqual` function.
+ * 
+ * Call func with parameters:
+ * `lhs` - left rational.
+ * `stream` - string stream.
+ */
+#define AssertOutputEqual(lhs, stream) _AssertOutputEqual(lhs, stream, __LINE__, __FILE__)
+
+
+void _AssertFalse(bool check, int line, const string& file) {
+    if (check) {
+        TestErrors.UpdateError();
+        ostringstream os;
+        os << boolalpha << check << " != false ";
+        PrintError(file, line, "AssertFalse", os);
+        throw runtime_error("");
+    }
+}
+/* 
+ * Macro for `AssertEqual` function.
+ * 
+ * Call func with parameters:
+ * `check` - true or false.
+ */
+#define AssertFalse(check) _AssertFalse(check, __LINE__, __FILE__)
+
+
+void _AssertTrue(bool check, int line, const string& file) {
+    if (!check) {
+        TestErrors.UpdateError();
+        ostringstream os;
+        os << boolalpha << check << " != true ";
+        PrintError(file, line, "AssertTrue", os);
+        throw runtime_error("");
+    }
+}
+/* 
+ * Macro for `AssertEqual` function.
+ * 
+ * Call func with parameters:
+ * `check` - true or false.
+ */
+#define AssertTrue(check) _AssertTrue(check, __LINE__, __FILE__)
+
+template<typename type>
+void _AssertContainerEqual(const type& lhs, 
+        const type& rhs, int line, const string& file) 
+{
+    if (lhs != rhs) {
+        TestErrors.UpdateError();
+        ostringstream os;
+        os << "vectors are not equal";
+        PrintError(file, line, "AssertContainerEqual", os);
+        throw runtime_error("");
+    } 
+}
+/* 
+ * Macro for `AssertEqual` function.
+ * 
+ * Call func with parameters:
+ * `lhs` - left container with rational.
+ * `rhs` - right container with rational.
+ */
+#define AssertContainerEqual(lhs, rhs) _AssertContainerEqual(lhs, rhs, __LINE__, __FILE__)
+
+template<typename type>
+void _AssertContainerNotEqual(const type& lhs, 
+        const type& rhs, int line, const string& file) 
+{
+    if (lhs == rhs) {
+        TestErrors.UpdateError();
+        ostringstream os;
+        os << "vectors are equal";
+        PrintError(file, line, "AssertContainerNotEqual", os);
+        throw runtime_error("");
+    } 
+}
+/* 
+ * Macro for `AssertEqual` function.
+ * 
+ * Call func with parameters:
+ * `lhs` - left container rational.
+ * `rhs` - right container rational.
+ */
+#define AssertContainerNotEqual(lhs, rhs) _AssertContainerNotEqual(lhs, rhs, __LINE__, __FILE__)
+
 
 
 /* 
  * Test function, check equality of class rational.
  */
 void TestEqual() {
-    TestErrors.ResetError();
-    cout << "The test №1 has begin.\n";
     {
         const rational r(3, 10); 
         AssertEqual(r, rational(3, 10));
@@ -266,16 +297,12 @@ void TestEqual() {
         const rational r(4, -6);
         AssertEqual(r, rational(-2, 3));
     }
-    TestErrors.UpdateGlobalError();
-    PrintResultTest();
 }
 
 /* 
  * Test function. Check `if (rational == true)` or `if (!rational)`. 
  */
 void TestTrueOrFalse() {
-    TestErrors.ResetError();
-    cout << "The test №2 has begin.\n";
     {
         const rational r();
         AssertFalse(!r);
@@ -313,16 +340,12 @@ void TestTrueOrFalse() {
         const rational r(0, 15);
         AssertFalse(!r);
     }
-    TestErrors.UpdateGlobalError();
-    PrintResultTest();
 }
 
 /* 
  * Test function. Compare two rational clases.
  */
 void TestComparsion() {
-    TestErrors.ResetError();
-    cout << "The test №3 has begin.\n";
     {
         rational r1(4, 6);
         rational r2(2, 5);
@@ -351,8 +374,6 @@ void TestComparsion() {
         rational r1(0, 1);
         AssertFalse(!r1);
     }
-    TestErrors.UpdateGlobalError();
-    PrintResultTest();
 }
 
 /* 
@@ -360,8 +381,6 @@ void TestComparsion() {
  * Operators: `+`, `-`, `*`, `/`.
  */
 void TestOperators() {
-    TestErrors.ResetError();
-    cout << "The test №4 has begin.\n";
     {
         rational a(2, 3);
         rational b(4, 3);
@@ -389,8 +408,6 @@ void TestOperators() {
         rational c(2, 3); 
         AssertEqual(a / b, c);
     }
-    TestErrors.UpdateGlobalError();
-    PrintResultTest();
 }
 
 /* 
@@ -398,8 +415,6 @@ void TestOperators() {
  * Operators: `+=`, `-=`, `*=`, `/=`.
  */
 void TestOperatorsTwo() {
-    TestErrors.ResetError();
-    cout << "The test №5 has begin.\n";
     {
         rational a(2, 3);
         rational b(4, 3); 
@@ -427,8 +442,6 @@ void TestOperatorsTwo() {
         a /= b;
         AssertEqual(a, rational(2, 3));
     }
-    TestErrors.UpdateGlobalError();
-    PrintResultTest();
 }
 
 /* 
@@ -436,8 +449,6 @@ void TestOperatorsTwo() {
  * Also, check, set class rational update from input.
  */
 void TestIOSTREAM() {
-    TestErrors.ResetError();
-    cout << "The test №6 has begin.\n";
     {
         ostringstream output;
         rational a(-6, 8); 
@@ -472,8 +483,6 @@ void TestIOSTREAM() {
         AssertEqual(r1, rational(5, 7));
         AssertEqual(r2, rational(5, 4));
     }
-    TestErrors.UpdateGlobalError();
-    PrintResultTest();
 }
 
 /* 
@@ -481,8 +490,6 @@ void TestIOSTREAM() {
  * Containers: `vector<rational>`, `set<rational>`.
  */
 void TestContainer() {
-    TestErrors.ResetError();
-    cout << "The test №7 has begin.\n";
     {
         const set<rational> rs = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
         const set<rational> ls = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}}; 
@@ -494,8 +501,6 @@ void TestContainer() {
         const set<rational> ls = {{1, 3}, {1, 21}, {3, 4}, {9, 4}, {1, 2}};
         AssertContainerNotEqual(rs, ls);
     }
-    TestErrors.UpdateGlobalError();
-    PrintResultTest();
 }
 
 /* 
@@ -503,8 +508,6 @@ void TestContainer() {
  * Containers: `map<rational, ...>`, `map<..., rational>`.
  */
 void TestMap() {
-    TestErrors.ResetError();
-    cout << "The test №8 has begin.\n";
     {
         map<rational, int> count;
         rational number = {0, 1};
@@ -517,44 +520,34 @@ void TestMap() {
             PrintError(__FILE__, __LINE__, "TestMap", os);
         }
     }
-    TestErrors.UpdateGlobalError();
-    PrintResultTest();
 }
 
+/* 
+ * 
+ */
+void TestCatchError() {
+    {
+        try {
+            rational a(1, 0);
+            ostringstream os;
+            os << "do not catch logic_error!";
+            PrintError(__FILE__, __LINE__, "TestCatchError", os);
+        } 
+        catch (logic_error const& err) {
+            rational a(1, 1);
+            bool equal = a == rational(1, 1);
+            AssertEqual(a, rational(1, 1));
+        }
+    }
+}
 /* 
  * Function run all defauls tests for class rational.
  */
 void RunDefaultTests() {
-    TestEqual();
-    TestTrueOrFalse();
-    TestComparsion();
-    TestOperators();
-    TestOperatorsTwo();
-    TestIOSTREAM();
-    TestContainer();
-    TestMap();
-    
-    // try to catch logic error
-    {
-        TestErrors.ResetError();
-        cout << "The test №9 has begin.\n";
-        {
-            try {
-                rational a(1, 0);
-                cerr << string(50, '*') << "\n";
-                cerr << "Assertion failed!" << "\n\n";
-                cerr << "In file: " << __FILE__ << "." << "\n";
-                cerr << "At line: " << __LINE__ << "." << "\n\n";
-                cerr << "Expression: " << "do not catch logic_error!" << "\n\n";
-            } 
-            catch (logic_error const& err) {
-                rational a(1, 1);
-                bool equal = a == rational(1, 1);
-                AssertEqual(a, rational(1, 1));
-            }
-        }
-        TestErrors.UpdateGlobalError();
-        PrintResultTest();
-    }
+    vector<function<void()>> funcs = {
+        TestEqual, TestTrueOrFalse, TestComparsion, TestOperators, 
+        TestOperatorsTwo, TestIOSTREAM, TestContainer, TestMap, TestCatchError,
+    };
+    RunTests(funcs);
     PrintGlobalResultTest();
 } 
