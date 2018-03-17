@@ -74,7 +74,7 @@ void _AssertEqual(const rational& lhs, const rational& rhs,
 /* 
  * Macro for `AssertEqual` function.
  * 
- * Call func with parametres:
+ * Call func with parameters:
  * `lhs` - left rational.
  * `rhs` - right rational.
  */
@@ -94,7 +94,7 @@ void _AssertNotEqual(const rational& lhs, const rational& rhs,
 /* 
  * Macro for `AssertNotEqual` function.
  * 
- * Call func with parametres:
+ * Call func with parameters:
  * `lhs` - left rational.
  * `rhs` - right rational.
  */
@@ -116,7 +116,7 @@ void _AssertOutputEqual(const rational& lhs, const string& stream,
 /* 
  * Macro for `AssertOutputEqual` function.
  * 
- * Call func with parametres:
+ * Call func with parameters:
  * `lhs` - left rational.
  * `stream` - string stream.
  */
@@ -134,7 +134,7 @@ void _AssertFalse(bool check, int line, const string& file) {
 /* 
  * Macro for `AssertEqual` function.
  * 
- * Call func with parametres:
+ * Call func with parameters:
  * `check` - true or false.
  */
 #define AssertFalse(check) _AssertFalse(check, __LINE__, __FILE__)
@@ -151,7 +151,7 @@ void _AssertTrue(bool check, int line, const string& file) {
 /* 
  * Macro for `AssertEqual` function.
  * 
- * Call func with parametres:
+ * Call func with parameters:
  * `check` - true or false.
  */
 #define AssertTrue(check) _AssertTrue(check, __LINE__, __FILE__)
@@ -170,7 +170,7 @@ void _AssertContainerEqual(const type& lhs,
 /* 
  * Macro for `AssertEqual` function.
  * 
- * Call func with parametres:
+ * Call func with parameters:
  * `lhs` - left container with rational.
  * `rhs` - right container with rational.
  */
@@ -190,13 +190,18 @@ void _AssertContainerNotEqual(const type& lhs,
 /* 
  * Macro for `AssertEqual` function.
  * 
- * Call func with parametres:
+ * Call func with parameters:
  * `lhs` - left container rational.
  * `rhs` - right container rational.
  */
 #define AssertContainerNotEqual(lhs, rhs) _AssertContainerNotEqual(lhs, rhs, __LINE__, __FILE__)
 
-
+/* 
+ * Print result when, group tests completed. Print `Done!` if tests are success.
+ * Otherwise print number of errors.
+ * 
+ * Called in every test.
+ */
 void PrintResultTest() {
     if (TestErrors.GetError() == 0) {
         cout << "Done!\n";
@@ -206,6 +211,13 @@ void PrintResultTest() {
     }
 }
 
+/* 
+ * Print global result when, all group tests completed. 
+ * Print `All test are success!` if all tests are success.
+ * Otherwise print number of errors and throw runtime_error.
+ * 
+ * Called, when all group tests are completed.
+ */
 void PrintGlobalResultTest() {
     if (TestErrors.GetGlobalError() == 0) {
         cout << "All tests are success!";
