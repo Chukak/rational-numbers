@@ -1,6 +1,5 @@
 #include "rational.h"
 #include "utils.h"
-
 #include <stdexcept>
 
 
