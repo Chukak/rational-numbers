@@ -12,10 +12,10 @@
  */
 struct Errors {
 public:
-    int GetError() {
+    int GetError() const {
         return error;
     }
-    int GetGlobalError() {
+    int GetGlobalError() const {
         return global;
     }
     void ResetError() {
@@ -260,6 +260,12 @@ void TestTrueOrFalse() {
     {
         const rational r();
         AssertFalse(!r);
+    }
+    
+    {
+        const rational r(-2 ,1);
+        bool a = r ? true : false;
+        AssertTrue(a);
     }
 
     {
