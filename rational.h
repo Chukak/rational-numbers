@@ -40,7 +40,10 @@ public:
     void operator/=(const rational& right);
     
     explicit operator bool() const {
-        return (numerator_value != 0 && denominator_value != 1);
+        if (denominator_value == 1) {
+            return numerator_value != 0;
+        }
+        return numerator_value != 0 && denominator_value != 1;
     };
     
 private:
