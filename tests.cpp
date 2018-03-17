@@ -305,7 +305,7 @@ void TestEqual() {
  */
 void TestTrueOrFalse() {
     {
-        const rational r();
+        const rational r{};
         AssertFalse(!r);
     }
     
@@ -512,10 +512,11 @@ void TestMap() {
     {
         map<rational, int> count;
         rational number = {0, 1};
-        ++count[{1, 2}];
+        ++count[number];
         ++count[{1, 2}];
         ++count[{2, 3}];
-        if (count.size() != 2) {
+        ++count[{2, 3}];
+        if (count.size() != 3) {
             ostringstream os;
             os << "map<rational, ...> not work";
             PrintError(__FILE__, __LINE__, "TestMap", os);
@@ -536,7 +537,6 @@ void TestCatchError() {
         } 
         catch (logic_error const& err) {
             rational a(1, 1);
-            bool equal = a == rational(1, 1);
             AssertEqual(a, rational(1, 1));
         }
     }
