@@ -40,16 +40,23 @@ Errors TestErrors;
 
 using namespace std;
 
+/* 
+ * Print error to stderr in the format:
+ * `In file: ` - file, in which error exists.
+ * `At line: ` - line, in wich error exists.
+ * `Function ` - testing function.
+ * `Expression: ` - error cause.
+ */
 void PrintError(const string& file, const int& line, 
         const string& func, const ostringstream& stream) 
 {
-    cout << string(50, '*') << "\n";
-    cout << "Assertion failed!" << "\n\n";
-    cout << "In file: " << file << "." << "\n";
-    cout << "At line: " << line << "." << "\n\n";
-    cout << "Function " << '`' << func << '`' << " failed!" << "\n";
-    cout << "Expression: " << stream.str() << "\n\n";
-    cout << string(50, '*') << "\n";
+    cerr << string(50, '*') << "\n";
+    cerr << "Assertion failed!" << "\n\n";
+    cerr << "In file: " << file << "." << "\n";
+    cerr << "At line: " << line << "." << "\n\n";
+    cerr << "Function " << '`' << func << '`' << " failed!" << "\n";
+    cerr << "Expression: " << stream.str() << "\n\n";
+    cerr << string(50, '*') << "\n";
 }
 
 /* 
@@ -534,11 +541,11 @@ void RunDefaultTests() {
         {
             try {
                 rational a(1, 0);
-                cout << string(50, '*') << "\n";
-                cout << "Assertion failed!" << "\n\n";
-                cout << "In file: " << __FILE__ << "." << "\n";
-                cout << "At line: " << __LINE__ << "." << "\n\n";
-                cout << "Expression: " << "do not catch logic_error!" << "\n\n";
+                cerr << string(50, '*') << "\n";
+                cerr << "Assertion failed!" << "\n\n";
+                cerr << "In file: " << __FILE__ << "." << "\n";
+                cerr << "At line: " << __LINE__ << "." << "\n\n";
+                cerr << "Expression: " << "do not catch logic_error!" << "\n\n";
             } 
             catch (logic_error const& err) {
                 rational a(1, 1);
