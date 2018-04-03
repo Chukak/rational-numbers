@@ -5,7 +5,7 @@
 #include <set>
 #include <vector> 
 #include <map>
-#include <c++/5/functional>
+#include <functional>
 
 
 using namespace std;
@@ -39,7 +39,7 @@ private:
 };
 
 // Initialize TestError object.
-Errors TestErrors;
+Errors TestErrors; 
 
 
 /* 
