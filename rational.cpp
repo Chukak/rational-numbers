@@ -1,6 +1,7 @@
 #include "rational.h"
 #include "utils.h"
 #include <stdexcept>
+#include <functional>
 
 
 /* 
@@ -129,12 +130,12 @@ void rational::operator+=(const rational& right) {
                denominator_value);
     } else {
         // get least common denominator
-        int new_denominator = LeastCommonDenominator(denominator_value, 
+        int denominator = LeastCommonDenominator(denominator_value, 
                 right.denominator());
         // 
-        int new_numerator = numerator_value * (new_denominator / denominator_value) + 
-                right.numerator() * (new_denominator / right.denominator());
-        setRational(new_numerator, new_denominator);
+        int numerator = numerator_value * (denominator / denominator_value) + 
+                right.numerator() * (denominator / right.denominator());
+        setRational(numerator, denominator);
     }
 }
 
@@ -200,18 +201,37 @@ void rational::operator/=(const rational& right) {
 }
 
 /* 
+ * Comparsion function.
+ * Takes left class rational as first argument, 
+ * right class rational as second argument, 
+ * comparsion operator as third argument.
+ * 
+ * Instead of operator, equivalent specified in the library 
+ * <functional> is used.
+ * 
+ * Returns `true` or `false`.
+ */
+template<class Operator>
+bool comparsionRational(const rational& left, const rational& right, 
+        Operator op) 
+{   
+    if (left.denominator() == right.denominator() && 
+            op(left.numerator(), right.numerator())) {
+        return true;
+    }
+    int LCD = LeastCommonDenominator(left.denominator(), right.denominator());
+    int lnumerator = left.numerator() * (LCD / left.denominator());
+    int rnumerator = right.numerator() * (LCD/ right.denominator());
+    return op(lnumerator, rnumerator);
+}
+
+/* 
  * Overload `==` operator for rational class.
  * 
  * Returns `true` or `false` depending on the comparsion result.
  */
 bool operator==(const rational& left, const rational& right) {
-    if (left.numerator() == right.numerator() &&
-            left.denominator() == right.denominator()) {
-        return true;
-    } 
-    int LCD = LeastCommonDenominator(left.denominator(), right.denominator());
-    return (left.numerator() * (LCD / left.denominator()) == 
-            right.numerator() * (LCD / right.denominator()));
+    return comparsionRational(left, right, std::equal_to<int>());
 }
 
 /* 
@@ -220,13 +240,7 @@ bool operator==(const rational& left, const rational& right) {
  * Returns `true` or `false` depending on the comparsion result.
  */
 bool operator!=(const rational& left, const rational& right) {
-    if (left.numerator() == right.numerator() &&
-            left.denominator() == right.denominator()) {
-        return false;
-    } 
-    int LCD = LeastCommonDenominator(left.denominator(), right.denominator());
-    return !(left.numerator() * (LCD / left.denominator()) == 
-            right.numerator() * (LCD / right.denominator()));
+    return !comparsionRational(left, right, std::equal_to<int>());
 }
 
 /* 
@@ -235,13 +249,16 @@ bool operator!=(const rational& left, const rational& right) {
  * Returns `true` or `false` depending on the comparsion result.
  */
 bool operator<(const rational& left, const rational& right) {
-   if (left.numerator() < right.numerator() &&
-            left.denominator() == right.denominator()) {
-        return true;
-    } 
-   int denominator = LeastCommonDenominator(left.denominator(), right.denominator());
-   return (left.numerator() * (denominator / left.denominator()) < 
-            right.numerator() * (denominator / right.denominator()));
+    return comparsionRational(left, right, std::less<int>());
+}
+
+/* 
+ * Overload `<=` operator for rational class.
+ * 
+ * Returns `true` or `false` depending on the comparsion result.
+ */
+bool operator<=(const rational& left, const rational& right) {
+    return comparsionRational(left, right, std::less_equal<int>());
 }
 
 /* 
@@ -250,13 +267,16 @@ bool operator<(const rational& left, const rational& right) {
  * Returns `true` or `false` depending on the comparsion result.
  */
 bool operator>(const rational& left, const rational& right) {
-   if (left.numerator() > right.numerator() &&
-            left.denominator() == right.denominator()) {
-        return true;
-    } 
-   int denominator = LeastCommonDenominator(left.denominator(), right.denominator());
-   return (left.numerator() * (denominator / left.denominator()) > 
-            right.numerator() * (denominator / right.denominator()));
+    return comparsionRational(left, right, std::greater<int>());
+}
+
+/* 
+ * Overload `>=` operator for rational class.
+ * 
+ * Returns `true` or `false` depending on the comparsion result.
+ */
+bool operator>=(const rational& left, const rational& right) {
+    return comparsionRational(left, right, std::greater_equal<int>());
 }
 
 /* 
