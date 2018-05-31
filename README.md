@@ -1,49 +1,50 @@
 # rational-numbers
 
 ## How to use
-Rational numbers class. Stores numbers in the format `2/3`. Creation:
+Class of rationals numbers. Stores numbers in the format `2/3`.
 
+### Creation: 
 ```cpp
 rational a(2, 3); rational a = {2, 3}; rational a; 
 ```
-
-You can be added, substract, multiply and divide two rational numbers. 
-For example add two rational numbers:
-
+### Arithmetic operations
+You can add, subtract, multiply and divide two rational numbers. 
+For example:
 ```cpp
 rational a(2, 3);
 rational b(2, 3);
 rational c = a + b;
+rational d = a - b;
+rational e = a * b;
+rational f = a / b;
 ```
 
+Also you can use this operator:
 ```cpp
 rational a(2, 3);
 rational b(2, 3);
 a += b
 ```
 
-You can compare two rational numbers. For example compare two numbers:
+You can compare two rational numbers. For example:
 
 ```cpp
 rational a(2, 3);
 rational b(2, 3);
-if (a == b)
-```
-
-```cpp
-rational a(2, 3);
-rational b(2, 3);
-if (a > b)
+if (a == b) { ... }
+if (a != b) { ... }
+if (a >= b) { ... }
+if (a < b) { ... }
 ```
 
 You can check `true` or `false` rational. For example:
 
 ```cpp
 rational a(0, 1);
-bool c = r ? true : false; // c == false
+bool c = a ? true : false; // c == false
 if (!a) { ... }
 rational a(2, 3)
-bool c = r ? true : false; // c = true
+bool c = a ? true : false; // c = true
 if (a) { ... } 
 ```
 
@@ -70,6 +71,6 @@ map[r] = 1;
 
 ## Tests
 Main.cpp by default run tests.
-File test.cpp contains more information.
+The file `test.cpp` contains tests.
 
 <hr>
